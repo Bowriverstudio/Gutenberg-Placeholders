@@ -13,8 +13,9 @@ import { Fragment } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { __ } from "@wordpress/i18n";
 
-import SpaceHolder from "./placeholders/spaceholder";
+import PlaceBear from "./placeholders/placebear";
 import PlaceKitten from "./placeholders/placekitten";
+import SpaceHolder from "./placeholders/spaceholder";
 
 // import { MediaPlaceholder } from "@wordpress/block-editor";
 import getPlaceHolderUrl from "./placeholder-image-url";
@@ -98,8 +99,6 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 		};
 
 		const placeholderSites = [
-			{ domain: "spaceholder.cc" },
-			{ domain: "placekitten.com" },
 			{ domain: "placebear.com" },
 			{ domain: "baconmockup.com" },
 			{ domain: "unsplash.it" },
@@ -190,6 +189,11 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 							setUrl={setUrl}
 						/>
 						<SpaceHolder
+							getWidth={getWidth}
+							getHeight={getHeight}
+							setUrl={setUrl}
+						/>
+						<PlaceBear
 							getWidth={getWidth}
 							getHeight={getHeight}
 							setUrl={setUrl}
