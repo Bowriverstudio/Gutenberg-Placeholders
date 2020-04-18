@@ -13,6 +13,7 @@ import { Fragment } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { __ } from "@wordpress/i18n";
 
+import BaconMockup from "./placeholders/baconmockup";
 import PlaceBear from "./placeholders/placebear";
 import PlaceKitten from "./placeholders/placekitten";
 import SpaceHolder from "./placeholders/spaceholder";
@@ -21,37 +22,6 @@ import SpaceHolder from "./placeholders/spaceholder";
 import getPlaceHolderUrl from "./placeholder-image-url";
 
 const allowedBlocks = ["core/image"];
-
-// console.log("Mirror True", isAOSDefaultValue("mirror", true));
-// console.log("Mirror False", isAOSDefaultValue("mirror", false));
-/**
- * Add custom attribute for mobile visibility.
- *
- * @param {Object} settings Settings for the block.
- *
- * @return {Object} settings Modified settings.
- */
-function addAttributes(settings) {
-	//add allowedBlocks restriction
-	if (allowedBlocks.includes(settings.name)) {
-		// console.log(getAOSDefaultValue("mirror"));
-		// Use Lodash's assign to gracefully handle if attributes are undefined
-		// settings.attributes = assign(settings.attributes, {
-		// 	aosData: {
-		// 		type: "string",
-		// 		default: ""
-		// 	},
-		// 	aosMirror: {
-		// 		type: "boolean",
-		// 		default: getAOSDefaultValue("mirror")
-		// 	}
-		// });
-	}
-
-	return settings;
-}
-
-addFilter("blocks.registerBlockType", "aos/custom-attributes", addAttributes);
 
 /**
  * Add Placeholder Image controls on Block Panel.
@@ -67,11 +37,7 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 		if (!allowedBlocks.includes(name)) {
 			return <BlockEdit {...props} />;
 		}
-		const { height, width, url } = attributes;
-
-		let placeimgCategory = "";
-
-		// const setImageUrl (url)
+		const { height, width } = attributes;
 
 		const getWidth = () => {
 			return width ? width : 700;
@@ -99,7 +65,6 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 		};
 
 		const placeholderSites = [
-			{ domain: "placebear.com" },
 			{ domain: "baconmockup.com" },
 			{ domain: "unsplash.it" },
 			{
@@ -113,67 +78,38 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 			}
 		];
 
-		//stackoverflow.com/questions/16626735/how-to-loop-through-an-array-containing-objects-and-access-their-properties
-		const PlaceHolderControllers = placeholderSites.map(element => {
-			const { domain, categories } = element;
-			return (
-				<Fragment>
-					<PanelRow>
-						<img
-							onClick={() => onChangePlaceHolderImage(domain)}
-							src={getPlaceHolderUrl(domain, 75, 75)}
-						/>
-						<Button onClick={() => onChangePlaceHolderImage(domain)}>
-							{domain}
-						</Button>
-					</PanelRow>
-					<PanelRow>
-						{categories ? (
-							<SelectControl
-								label={__("Categories")}
-								value={placeimgCategory}
-								options={categories}
-								onChange={
-									selectControl => selectControl
-									// onChangePlaceHolderImage(domain, selectControl)
-								}
-							/>
-						) : (
-							""
-						)}
-					</PanelRow>
-				</Fragment>
-			);
-		});
-
-		// const PlaceHolderControllers = Object.entries(placeholderSites).map();
-
-		// const SelectControllers = Object.entries(uikit.breakpoints).map(
-		//     ([key, breakpoint]) => {
-		//         const attributeKey = "ukWidth" + (key ? key.toUpperCase() : '');
-
-		//         const widthOptions = uikit.widthOptions.map(option => {
-		//             let value = "uk-width-" + option + '@' + key;
-		//             return {label: option, value: value};
-		//         });
-		//         // Add First option as empty.
-		//         widthOptions.unshift({label: '', value: ''})
-
-		//         const label = key + " layouts"
-		//         const value = attributes[attributeKey]
-
-		//         return (
-		//             <SelectControl
-		//                 key={key}
-		//                 style={{padding: '0 7px'}}
-		//                 label={label}
-		//                 value={value}
-		//                 options={widthOptions}
-		//                 onChange={(value) => setAttributes({[attributeKey]: value})}
-		//             />
-		//         )
-		//     }
-		// );
+		// //stackoverflow.com/questions/16626735/how-to-loop-through-an-array-containing-objects-and-access-their-properties
+		// const PlaceHolderControllers = placeholderSites.map(element => {
+		// 	const { domain, categories } = element;
+		// 	return (
+		// 		<Fragment>
+		// 			<PanelRow>
+		// 				<img
+		// 					onClick={() => onChangePlaceHolderImage(domain)}
+		// 					src={getPlaceHolderUrl(domain, 75, 75)}
+		// 				/>
+		// 				<Button onClick={() => onChangePlaceHolderImage(domain)}>
+		// 					{domain}
+		// 				</Button>
+		// 			</PanelRow>
+		// 			<PanelRow>
+		// 				{categories ? (
+		// 					<SelectControl
+		// 						label={__("Categories")}
+		// 						value={placeimgCategory}
+		// 						options={categories}
+		// 						onChange={
+		// 							selectControl => selectControl
+		// 							// onChangePlaceHolderImage(domain, selectControl)
+		// 						}
+		// 					/>
+		// 				) : (
+		// 					""
+		// 				)}
+		// 			</PanelRow>
+		// 		</Fragment>
+		// 	);
+		// });
 
 		return (
 			<Fragment>
@@ -194,6 +130,11 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 							setUrl={setUrl}
 						/>
 						<PlaceBear
+							getWidth={getWidth}
+							getHeight={getHeight}
+							setUrl={setUrl}
+						/>
+						<BaconMockup
 							getWidth={getWidth}
 							getHeight={getHeight}
 							setUrl={setUrl}
@@ -231,48 +172,3 @@ addFilter("editor.BlockEdit", "placeholders/blockeditor", withAdvancedControls);
 // 	"placeholders/replace-media-placeholder",
 // 	replaceMediaPlaceholder
 // );
-
-/**
- * Override props assigned to save component to inject AOS Data.
- * This is only applied if the block's save result is an
- * element and not a markup string.
- *
- * @param {Object} extraProps Additional props applied to save element.
- * @param {Object} blockType  Block type.
- * @param {Object} attributes Current block attributes.
- *
- * @return {Object} Filtered props applied to save element.
- */
-function addSaveProps(extraProps, blockType, attributes) {
-	if (!allowedBlocks.includes(blockType.name)) {
-		return extraProps;
-	}
-
-	// const { aosData, aosMirror } = attributes;
-
-	// if (aosData) {
-	// 	// Assign aos-mirror if not default value
-	// 	if (!isAOSDefaultValue("mirror", aosMirror)) {
-	// 		lodash.assign(extraProps, { "data-aos-mirror": aosMirror });
-	// 	}
-
-	// 	return lodash.assign(extraProps, { "data-aos": aosData });
-
-	// 	console.log(aosData);
-
-	// 	console.log(extraProps);
-	// 	console.log("Name");
-	// 	console.log(blockType.name);
-	// 	console.log(attributes);
-	// }
-
-	return extraProps;
-
-	// return lodash.assign(props, { style: { backgroundColor: "red" } });
-}
-
-wp.hooks.addFilter(
-	"blocks.getSaveContent.extraProps",
-	"placeholders/add-extraProps",
-	addSaveProps
-);
