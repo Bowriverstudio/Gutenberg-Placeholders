@@ -14,6 +14,7 @@ import { addFilter } from "@wordpress/hooks";
 import { __ } from "@wordpress/i18n";
 
 import SpaceHolder from "./placeholders/spaceholder";
+import PlaceKitten from "./placeholders/placekitten";
 
 // import { MediaPlaceholder } from "@wordpress/block-editor";
 import getPlaceHolderUrl from "./placeholder-image-url";
@@ -183,6 +184,11 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 						<div>
 							Inserts a random placeholder image from the following sites:
 						</div>
+						<PlaceKitten
+							getWidth={getWidth}
+							getHeight={getHeight}
+							setUrl={setUrl}
+						/>
 						<SpaceHolder
 							getWidth={getWidth}
 							getHeight={getHeight}
