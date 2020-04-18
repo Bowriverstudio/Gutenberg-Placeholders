@@ -17,6 +17,7 @@ import BaconMockup from "./placeholders/baconmockup";
 import PlaceBear from "./placeholders/placebear";
 import PlaceKitten from "./placeholders/placekitten";
 import SpaceHolder from "./placeholders/spaceholder";
+import Unsplash from "./placeholders/unsplash";
 
 // import { MediaPlaceholder } from "@wordpress/block-editor";
 import getPlaceHolderUrl from "./placeholder-image-url";
@@ -65,7 +66,6 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 		};
 
 		const placeholderSites = [
-			{ domain: "baconmockup.com" },
 			{ domain: "unsplash.it" },
 			{
 				domain: "placeimg.com",
@@ -135,6 +135,11 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 							setUrl={setUrl}
 						/>
 						<BaconMockup
+							getWidth={getWidth}
+							getHeight={getHeight}
+							setUrl={setUrl}
+						/>
+						<Unsplash
 							getWidth={getWidth}
 							getHeight={getHeight}
 							setUrl={setUrl}
