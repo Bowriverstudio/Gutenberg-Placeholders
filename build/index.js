@@ -320,8 +320,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _placeholders_unsplash__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./placeholders/unsplash */ "./src/placeholders/unsplash.js");
 /* harmony import */ var _placeholder_image_url__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./placeholder-image-url */ "./src/placeholder-image-url.js");
 
-var _lodash = lodash,
-    assign = _lodash.assign;
 
 
 
@@ -333,7 +331,7 @@ var _lodash = lodash,
 
 
 
- // import { MediaPlaceholder } from "@wordpress/block-editor";
+ // import { MediaPlaceholder } from '@wordpress/block-editor';
 
 
 var allowedBlocks = ["core/image"];
@@ -375,10 +373,8 @@ var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2_
     };
 
     var setUrlIfSameHostname = function setUrlIfSameHostname(udpatedUrl) {
-      // Only perform an update if the
       var currentHostname = new URL(url).hostname;
       var updatedHostname = new URL(udpatedUrl).hostname;
-      console.log(udpatedUrl);
 
       if (currentHostname == updatedHostname) {
         // Hostnames match but urls don't update
@@ -417,25 +413,14 @@ var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2_
     }))));
   };
 }, "withAdvancedControls");
-Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["addFilter"])("editor.BlockEdit", "placeholders/blockeditor", withAdvancedControls); // class MediaPlaceholderWithPlaceHolder extends MediaPlaceholder {
-// 	constructor() {
-// 		super(...arguments);
-// 		console.log("HIHIHI");
-// 	}
-// }
+Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["addFilter"])("editor.BlockEdit", "placeholders/blockeditor", withAdvancedControls); // @TODO Ernesto - See image: app/public/wp-content/plugins/placeholders/docs/Image Create Block.png
+// Please get the hook 'editor.MediaPlaceholder' to work.  Add any or all the placeholders you want there.
 // function replaceMediaPlaceholder(mediaPlaceholder) {
-// 	console.log(mediaPlaceholder);
-// 	// console.log(mediaPlaceholder.render());
-// 	// mediaPlaceholder.prototype.render() =
-// 	console.log(mediaPlaceholder.prototype.render());
-// 	// console.log(test);
-// 	console.log("REPLACe");
-// 	// console.log(MediaPlaceholderWithPlaceHolder);
 // 	return mediaPlaceholder;
 // }
 // wp.hooks.addFilter(
-// 	"editor.MediaPlaceholder",
-// 	"placeholders/replace-media-placeholder",
+// 	'editor.MediaPlaceholder',
+// 	'placeholders/replace-media-placeholder',
 // 	replaceMediaPlaceholder
 // );
 

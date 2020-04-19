@@ -1,12 +1,4 @@
-const { assign } = lodash;
-
-import {
-	PanelBody,
-	PanelRow,
-	Button,
-	SelectControl,
-	ToggleControl
-} from "@wordpress/components";
+import { PanelBody } from "@wordpress/components";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { InspectorControls } from "@wordpress/editor";
 import { Fragment } from "@wordpress/element";
@@ -20,7 +12,7 @@ import PlaceKitten from "./placeholders/placekitten";
 import SpaceHolder from "./placeholders/spaceholder";
 import Unsplash from "./placeholders/unsplash";
 
-// import { MediaPlaceholder } from "@wordpress/block-editor";
+// import { MediaPlaceholder } from '@wordpress/block-editor';
 import getPlaceHolderUrl from "./placeholder-image-url";
 
 const allowedBlocks = ["core/image"];
@@ -56,11 +48,8 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 		};
 
 		const setUrlIfSameHostname = udpatedUrl => {
-			// Only perform an update if the
 			const currentHostname = new URL(url).hostname;
 			const updatedHostname = new URL(udpatedUrl).hostname;
-
-			console.log(udpatedUrl);
 
 			if (currentHostname == updatedHostname) {
 				// Hostnames match but urls don't update
@@ -116,27 +105,15 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 
 addFilter("editor.BlockEdit", "placeholders/blockeditor", withAdvancedControls);
 
-// class MediaPlaceholderWithPlaceHolder extends MediaPlaceholder {
-// 	constructor() {
-// 		super(...arguments);
-// 		console.log("HIHIHI");
-// 	}
-// }
+// @TODO Ernesto - See image: app/public/wp-content/plugins/placeholders/docs/Image Create Block.png
+// Please get the hook 'editor.MediaPlaceholder' to work.  Add any or all the placeholders you want there.
 
 // function replaceMediaPlaceholder(mediaPlaceholder) {
-// 	console.log(mediaPlaceholder);
-// 	// console.log(mediaPlaceholder.render());
-// 	// mediaPlaceholder.prototype.render() =
-// 	console.log(mediaPlaceholder.prototype.render());
-// 	// console.log(test);
-// 	console.log("REPLACe");
-// 	// console.log(MediaPlaceholderWithPlaceHolder);
-
 // 	return mediaPlaceholder;
 // }
 
 // wp.hooks.addFilter(
-// 	"editor.MediaPlaceholder",
-// 	"placeholders/replace-media-placeholder",
+// 	'editor.MediaPlaceholder',
+// 	'placeholders/replace-media-placeholder',
 // 	replaceMediaPlaceholder
 // );
