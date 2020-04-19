@@ -718,7 +718,6 @@ var PlaceImg = /*#__PURE__*/function (_Component) {
     // - Then check if there is a selectedCategory present if so intialize the state to that.
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "changeImageUrl", function () {
-      // const url = this.getUrl(this.props.getWidth(), this.props.getHeight());
       _this.props.setUrl(_this.getUrl());
     });
 
@@ -741,7 +740,10 @@ var PlaceImg = /*#__PURE__*/function (_Component) {
 
     _this.state = {
       selectedCategory: ""
-    };
+    }; // @TODO Erensto
+    // - Add Filter grayscale http://placeimg.com/640/480/nature/grayscale
+    // - Add Filter sepia http://placeimg.com/640/480/nature/grayscale
+
     return _this;
   }
 
@@ -762,6 +764,12 @@ var PlaceImg = /*#__PURE__*/function (_Component) {
         value: "animals",
         label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__["__"])("Animals")
       }, {
+        value: "arch",
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__["__"])("Architetcure")
+      }, {
+        value: "nature",
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__["__"])("Nature")
+      }, {
         value: "people",
         label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__["__"])("People")
       }, {
@@ -770,12 +778,12 @@ var PlaceImg = /*#__PURE__*/function (_Component) {
       }];
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         },
         src: this.getUrl(75, 75)
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         }
       }, "placeimg.com")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["SelectControl"], {
         label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__["__"])("Categories"),

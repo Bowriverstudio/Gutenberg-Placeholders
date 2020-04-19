@@ -10,10 +10,13 @@ class PlaceImg extends Component {
 		// - Add the existing URL from the parent
 		// - Then check if there is a selectedCategory present if so intialize the state to that.
 		this.state = { selectedCategory: "" };
+
+		// @TODO Erensto
+		// - Add Filter grayscale http://placeimg.com/640/480/nature/grayscale
+		// - Add Filter sepia http://placeimg.com/640/480/nature/grayscale
 	}
 
 	changeImageUrl = () => {
-		// const url = this.getUrl(this.props.getWidth(), this.props.getHeight());
 		this.props.setUrl(this.getUrl());
 	};
 
@@ -47,6 +50,8 @@ class PlaceImg extends Component {
 		const categories = [
 			{ value: "", label: __("") },
 			{ value: "animals", label: __("Animals") },
+			{ value: "arch", label: __("Architetcure") },
+			{ value: "nature", label: __("Nature") },
 			{ value: "people", label: __("People") },
 			{ value: "tech", label: __("Tech") }
 		];
@@ -55,10 +60,12 @@ class PlaceImg extends Component {
 			<Fragment>
 				<PanelRow>
 					<img
-						onClick={() => this.changeImageUrl()}
+						onClick={() => this.props.setUrl(this.getUrl())}
 						src={this.getUrl(75, 75)}
 					/>
-					<Button onClick={() => this.changeImageUrl()}>placeimg.com</Button>
+					<Button onClick={() => this.props.setUrl(this.getUrl())}>
+						placeimg.com
+					</Button>
 				</PanelRow>
 				<PanelRow>
 					<SelectControl
