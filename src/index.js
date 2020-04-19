@@ -15,6 +15,7 @@ import { __ } from "@wordpress/i18n";
 
 import BaconMockup from "./placeholders/baconmockup";
 import PlaceBear from "./placeholders/placebear";
+import PlaceImg from "./placeholders/placeimg";
 import PlaceKitten from "./placeholders/placekitten";
 import SpaceHolder from "./placeholders/spaceholder";
 import Unsplash from "./placeholders/unsplash";
@@ -38,7 +39,7 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 		if (!allowedBlocks.includes(name)) {
 			return <BlockEdit {...props} />;
 		}
-		const { height, width } = attributes;
+		const { height, width, url } = attributes;
 
 		const getWidth = () => {
 			return width ? width : 700;
@@ -48,68 +49,24 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 			return height ? height : 700;
 		};
 
-		const setUrl = url => {
+		const setUrl = udpatedUrl => {
 			setAttributes({
-				url: url
+				url: udpatedUrl
 			});
 		};
 
-		const onChangePlaceHolderImage = (site, category) => {
-			console.log(site);
-			console.log(category);
+		const setUrlIfSameHostname = udpatedUrl => {
+			// Only perform an update if the
+			const currentHostname = new URL(url).hostname;
+			const updatedHostname = new URL(udpatedUrl).hostname;
 
-			// console.log(getPlaceHolderUrl(site, width, height));
-			// Set to default value
-			setAttributes({
-				url: getPlaceHolderUrl(site, width, height)
-			});
-		};
+			console.log(udpatedUrl);
 
-		const placeholderSites = [
-			{ domain: "unsplash.it" },
-			{
-				domain: "placeimg.com",
-				categories: [
-					{ value: "", label: __("") },
-					{ value: "animals", label: __("Animals") },
-					{ value: "people", label: __("People") },
-					{ value: "tech", label: __("Tech") }
-				]
+			if (currentHostname == updatedHostname) {
+				// Hostnames match but urls don't update
+				setUrl(udpatedUrl);
 			}
-		];
-
-		// //stackoverflow.com/questions/16626735/how-to-loop-through-an-array-containing-objects-and-access-their-properties
-		// const PlaceHolderControllers = placeholderSites.map(element => {
-		// 	const { domain, categories } = element;
-		// 	return (
-		// 		<Fragment>
-		// 			<PanelRow>
-		// 				<img
-		// 					onClick={() => onChangePlaceHolderImage(domain)}
-		// 					src={getPlaceHolderUrl(domain, 75, 75)}
-		// 				/>
-		// 				<Button onClick={() => onChangePlaceHolderImage(domain)}>
-		// 					{domain}
-		// 				</Button>
-		// 			</PanelRow>
-		// 			<PanelRow>
-		// 				{categories ? (
-		// 					<SelectControl
-		// 						label={__("Categories")}
-		// 						value={placeimgCategory}
-		// 						options={categories}
-		// 						onChange={
-		// 							selectControl => selectControl
-		// 							// onChangePlaceHolderImage(domain, selectControl)
-		// 						}
-		// 					/>
-		// 				) : (
-		// 					""
-		// 				)}
-		// 			</PanelRow>
-		// 		</Fragment>
-		// 	);
-		// });
+		};
 
 		return (
 			<Fragment>
@@ -119,6 +76,12 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 						<div>
 							Inserts a random placeholder image from the following sites:
 						</div>
+						<PlaceImg
+							getWidth={getWidth}
+							getHeight={getHeight}
+							setUrl={setUrl}
+							setUrlIfSameHostname={setUrlIfSameHostname}
+						/>
 						<PlaceKitten
 							getWidth={getWidth}
 							getHeight={getHeight}

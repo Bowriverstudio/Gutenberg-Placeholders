@@ -24,5 +24,8 @@
 		"plugins": [
 			"@babel/plugin-proposal-class-properties"
 		]
+	},
+	"dependencies": {
+		"psl": "^1.8.0"
 	}
 }
