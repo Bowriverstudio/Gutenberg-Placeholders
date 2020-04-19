@@ -7,20 +7,22 @@ class PlaceKitten extends Component {
 		super(props);
 	}
 
-	changeImageUrl = () => {
-		const url = this.getUrl(this.props.getWidth(), this.props.getHeight());
-		this.props.setUrl(url);
-	};
-
 	getUrl = (width, height) => {
+		width = width ? width : this.props.getWidth();
+		height = height ? height : this.props.getHeight();
 		return "https://placekitten.com/" + width + "/" + height;
 	};
 
 	render() {
 		return (
 			<PanelRow>
-				<img onClick={() => this.changeImageUrl()} src={this.getUrl(75, 75)} />
-				<Button onClick={() => this.changeImageUrl()}>PlaceKitten.com</Button>
+				<img
+					onClick={() => this.props.setUrl(this.getUrl())}
+					src={this.getUrl(75, 75)}
+				/>
+				<Button onClick={() => this.props.setUrl(this.getUrl())}>
+					PlaceKitten.com
+				</Button>
 			</PanelRow>
 		);
 	}

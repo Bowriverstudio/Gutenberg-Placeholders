@@ -523,13 +523,9 @@ var BaconMockup = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "changeImageUrl", function () {
-      var url = _this.getUrl(_this.props.getWidth(), _this.props.getHeight());
-
-      _this.props.setUrl(url);
-    });
-
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "getUrl", function (width, height) {
+      width = width ? width : _this.props.getWidth();
+      height = height ? height : _this.props.getHeight();
       return "https://baconmockup.com/" + width + "/" + height;
     });
 
@@ -543,12 +539,12 @@ var BaconMockup = /*#__PURE__*/function (_Component) {
 
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         },
         src: this.getUrl(75, 75)
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         }
       }, "baconmockup.com"));
     }
@@ -619,13 +615,9 @@ var PlaceBear = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "changeImageUrl", function () {
-      var url = _this.getUrl(_this.props.getWidth(), _this.props.getHeight());
-
-      _this.props.setUrl(url);
-    });
-
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "getUrl", function (width, height) {
+      width = width ? width : _this.props.getWidth();
+      height = height ? height : _this.props.getHeight();
       return "https://placebear.com/" + width + "/" + height;
     });
 
@@ -639,12 +631,12 @@ var PlaceBear = /*#__PURE__*/function (_Component) {
 
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         },
         src: this.getUrl(75, 75)
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         }
       }, "placebear.com"));
     }
@@ -714,12 +706,9 @@ var PlaceImg = /*#__PURE__*/function (_Component) {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, PlaceImg);
 
     _this = _super.call(this, props); // @TODO Erensto
+    // Fix the problem when you select a category, then move to a different block, and reselect the block the this.state is reset.  I do not want to store an attribute.
     // - Add the existing URL from the parent
     // - Then check if there is a selectedCategory present if so intialize the state to that.
-
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "changeImageUrl", function () {
-      _this.props.setUrl(_this.getUrl());
-    });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "handleChangeCategory", function (selectedCategory) {
       _this.setState({
@@ -863,13 +852,9 @@ var PlaceKitten = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "changeImageUrl", function () {
-      var url = _this.getUrl(_this.props.getWidth(), _this.props.getHeight());
-
-      _this.props.setUrl(url);
-    });
-
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "getUrl", function (width, height) {
+      width = width ? width : _this.props.getWidth();
+      height = height ? height : _this.props.getHeight();
       return "https://placekitten.com/" + width + "/" + height;
     });
 
@@ -883,12 +868,12 @@ var PlaceKitten = /*#__PURE__*/function (_Component) {
 
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         },
         src: this.getUrl(75, 75)
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         }
       }, "PlaceKitten.com"));
     }
@@ -959,13 +944,9 @@ var SpaceHolder = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "changeImageUrl", function () {
-      var url = _this.getUrl(_this.props.getWidth(), _this.props.getHeight());
-
-      _this.props.setUrl(url);
-    });
-
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "getUrl", function (width, height) {
+      width = width ? width : _this.props.getWidth();
+      height = height ? height : _this.props.getHeight();
       return "https://spaceholder.cc/" + width + "x" + height;
     });
 
@@ -979,12 +960,12 @@ var SpaceHolder = /*#__PURE__*/function (_Component) {
 
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         },
         src: this.getUrl(75, 75)
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         }
       }, "SpaceHolder.cc"));
     }
@@ -1055,13 +1036,9 @@ var Unsplash = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "changeImageUrl", function () {
-      var url = _this.getUrl(_this.props.getWidth(), _this.props.getHeight());
-
-      _this.props.setUrl(url);
-    });
-
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "getUrl", function (width, height) {
+      width = width ? width : _this.props.getWidth();
+      height = height ? height : _this.props.getHeight();
       return "https://unsplash.it/" + width + "/" + height;
     });
 
@@ -1075,12 +1052,12 @@ var Unsplash = /*#__PURE__*/function (_Component) {
 
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         },
         src: this.getUrl(75, 75)
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         onClick: function onClick() {
-          return _this2.changeImageUrl();
+          return _this2.props.setUrl(_this2.getUrl());
         }
       }, "unsplash.it"));
     }

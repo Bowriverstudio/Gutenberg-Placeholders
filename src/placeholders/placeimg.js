@@ -7,6 +7,7 @@ class PlaceImg extends Component {
 		super(props);
 
 		// @TODO Erensto
+		// Fix the problem when you select a category, then move to a different block, and reselect the block the this.state is reset.  I do not want to store an attribute.
 		// - Add the existing URL from the parent
 		// - Then check if there is a selectedCategory present if so intialize the state to that.
 		this.state = { selectedCategory: "" };
@@ -15,10 +16,6 @@ class PlaceImg extends Component {
 		// - Add Filter grayscale http://placeimg.com/640/480/nature/grayscale
 		// - Add Filter sepia http://placeimg.com/640/480/nature/grayscale
 	}
-
-	changeImageUrl = () => {
-		this.props.setUrl(this.getUrl());
-	};
 
 	handleChangeCategory = selectedCategory => {
 		this.setState({ selectedCategory: selectedCategory });
