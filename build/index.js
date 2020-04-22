@@ -389,6 +389,7 @@ var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2_
       getWidth: getWidth,
       getHeight: getHeight,
       setUrl: setUrl,
+      url: url,
       setUrlIfSameHostname: setUrlIfSameHostname
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_placeholders_placekitten__WEBPACK_IMPORTED_MODULE_9__["default"], {
       getWidth: getWidth,
@@ -690,38 +691,52 @@ var PlaceImg = /*#__PURE__*/function (_Component) {
 
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, PlaceImg);
 
-    _this = _super.call(this, props); // @TODO Erensto
-    // Fix the problem when you select a category, then move to a different block, and reselect the block the this.state is reset.  I do not want to store an attribute.
-    // - Add the existing URL from the parent
-    // - Then check if there is a selectedCategory present if so intialize the state to that.
-
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "handleChangeCategory", function (selectedCategory) {
-      _this.setState({
-        selectedCategory: selectedCategory
-      });
-    });
+    _this = _super.call(this, props);
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "getUrl", function (width, height) {
       width = width ? width : _this.props.getWidth();
       height = height ? height : _this.props.getHeight();
+      var url = "https://placeimg.com/" + width + "/" + height;
 
       if (_this.state.selectedCategory) {
-        return "https://placeimg.com/" + width + "/" + height + "/" + _this.state.selectedCategory;
+        url = url + "/" + _this.state.selectedCategory;
+
+        if (_this.state.selectedFilter && _this.state.selectedFilter != '') {
+          url = url + "/" + _this.state.selectedFilter;
+        }
       }
 
-      return "https://placeimg.com/" + width + "/" + height;
+      console.log(_this.state.selectedCategory);
+      console.log(_this.state.selectedFilter);
+      return url;
     });
 
-    _this.state = {
-      selectedCategory: ""
-    }; // @TODO Erensto
-    // - Add Filter grayscale http://placeimg.com/640/480/nature/grayscale
-    // - Add Filter sepia http://placeimg.com/640/480/nature/grayscale
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "init", function () {
+      var arrayAux = _this.props.url.replace('https://', '').split('/');
 
+      console.log(_this.props.url);
+      var copyState = {
+        selectedCategory: '',
+        selectedFilter: ''
+      };
+      if (arrayAux.length == 4) copyState.selectedCategory = arrayAux[3];
+
+      if (arrayAux.length == 5) {
+        copyState.selectedCategory = arrayAux[3];
+        copyState.selectedFilter = arrayAux[4];
+      }
+
+      return copyState;
+    });
+
+    _this.state = _this.init();
     return _this;
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(PlaceImg, [{
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(next_props) {}
+  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
       this.props.setUrlIfSameHostname(this.getUrl());
@@ -750,6 +765,16 @@ var PlaceImg = /*#__PURE__*/function (_Component) {
         value: "tech",
         label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__["__"])("Tech")
       }];
+      var filter = [{
+        value: "",
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__["__"])("")
+      }, {
+        label: 'Grayscale',
+        value: 'grayscale'
+      }, {
+        label: 'Sepia',
+        value: 'sepia'
+      }];
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
         onClick: function onClick() {
           return _this2.props.setUrl(_this2.getUrl());
@@ -764,9 +789,18 @@ var PlaceImg = /*#__PURE__*/function (_Component) {
         value: this.state.selectedCategory,
         options: categories,
         onChange: function onChange(selectedCategory) {
-          return (// @TODO - Ernesto - can this be written as this.setState instead.
-            _this2.handleChangeCategory(selectedCategory)
-          );
+          return _this2.setState({
+            selectedCategory: selectedCategory
+          });
+        }
+      })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["SelectControl"], {
+        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__["__"])("Add filter"),
+        value: this.state.selectedFilter,
+        options: filter,
+        onChange: function onChange(selectedFilter) {
+          return _this2.setState({
+            selectedFilter: selectedFilter
+          });
         }
       })));
     }

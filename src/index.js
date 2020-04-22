@@ -69,6 +69,7 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 							getWidth={getWidth}
 							getHeight={getHeight}
 							setUrl={setUrl}
+							url={url}
 							setUrlIfSameHostname={setUrlIfSameHostname}
 						/>
 						<PlaceKitten

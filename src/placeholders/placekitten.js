@@ -2,7 +2,7 @@ import { Component } from "@wordpress/element";
 import { Button, PanelRow } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 
-class PlaceKitten extends Component {
+class 	PlaceKitten extends Component {
 	constructor(props) {
 		super(props);
 	}

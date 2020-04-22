@@ -35,7 +35,7 @@ function create_block_placeholders_block_init() {
 		$script_asset['version']
 	);
 
-	$editor_css = 'editor.css';
+	$editor_css = '/editor.css';
 	wp_register_style(
 		'create-block-placeholders-block-editor',
 		plugins_url( $editor_css, __FILE__ ),
