@@ -1,18 +1,14 @@
-import { PanelBody } from "@wordpress/components";
-import { createHigherOrderComponent } from "@wordpress/compose";
-import { InspectorControls } from "@wordpress/editor";
-import { Fragment } from "@wordpress/element";
-import { addFilter } from "@wordpress/hooks";
-import { __ } from "@wordpress/i18n";
-
-import BaconMockup from "./placeholders/baconmockup";
-import PlaceBear from "./placeholders/placebear";
+import {PanelBody} from "@wordpress/components";
+import {createHigherOrderComponent} from "@wordpress/compose";
+import {InspectorControls} from "@wordpress/editor";
+import {Fragment} from "@wordpress/element";
+import {addFilter} from "@wordpress/hooks";
+import {__} from "@wordpress/i18n";
 import PlaceImg from "./placeholders/placeimg";
-import PlaceKitten from "./placeholders/placekitten";
 import SpaceHolder from "./placeholders/spaceholder";
-import Unsplash from "./placeholders/unsplash";
+import ServerComponen from "./Useful/ServerComponen";
 
-// import { MediaPlaceholder } from '@wordpress/block-editor';
+import {MediaPlaceholder} from '@wordpress/block-editor';
 import getPlaceHolderUrl from "./placeholder-image-url";
 
 const allowedBlocks = ["core/image"];
@@ -25,83 +21,91 @@ const allowedBlocks = ["core/image"];
  * @return {function} BlockEdit Modified block edit component.
  */
 const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
-	return props => {
-		const { name, attributes, setAttributes, isSelected } = props;
+    return props => {
+        const {name, attributes, setAttributes, isSelected} = props;
 
-		if (!allowedBlocks.includes(name)) {
-			return <BlockEdit {...props} />;
-		}
-		const { height, width, url } = attributes;
+        if (!allowedBlocks.includes(name)) {
+            return <BlockEdit {...props} />;
+        }
 
-		const getWidth = () => {
-			return width ? width : 700;
-		};
+        const {height, width, url} = attributes;
 
-		const getHeight = () => {
-			return height ? height : 700;
-		};
+        const getWidth = () => {
+            return width ? width : 700;
+        };
 
-		const setUrl = udpatedUrl => {
-			setAttributes({
-				url: udpatedUrl
-			});
-		};
+        const getHeight = () => {
+            return height ? height : 700;
+        };
 
-		const setUrlIfSameHostname = udpatedUrl => {
-			const currentHostname = new URL(url).hostname;
-			const updatedHostname = new URL(udpatedUrl).hostname;
+        const setUrl = udpatedUrl => {
+            setAttributes({
+                url: udpatedUrl
+            });
+        };
 
-			if (currentHostname == updatedHostname) {
-				// Hostnames match but urls don't update
-				setUrl(udpatedUrl);
-			}
-		};
+        const setUrlIfSameHostname = udpatedUrl => {
+            const currentHostname = new URL(url).hostname;
+            const updatedHostname = new URL(udpatedUrl).hostname;
 
-		return (
-			<Fragment>
-				<BlockEdit {...props} />
-				<InspectorControls>
-					<PanelBody title={__("Place Holders")} initialOpen={true}>
-						<div>
-							Inserts a random placeholder image from the following sites:
-						</div>
-						<PlaceImg
-							getWidth={getWidth}
-							getHeight={getHeight}
-							setUrl={setUrl}
-							url={url}
-							setUrlIfSameHostname={setUrlIfSameHostname}
-						/>
-						<PlaceKitten
-							getWidth={getWidth}
-							getHeight={getHeight}
-							setUrl={setUrl}
-						/>
-						<SpaceHolder
-							getWidth={getWidth}
-							getHeight={getHeight}
-							setUrl={setUrl}
-						/>
-						<PlaceBear
-							getWidth={getWidth}
-							getHeight={getHeight}
-							setUrl={setUrl}
-						/>
-						<BaconMockup
-							getWidth={getWidth}
-							getHeight={getHeight}
-							setUrl={setUrl}
-						/>
-						<Unsplash
-							getWidth={getWidth}
-							getHeight={getHeight}
-							setUrl={setUrl}
-						/>
-					</PanelBody>
-				</InspectorControls>
-			</Fragment>
-		);
-	};
+            if (currentHostname == updatedHostname) {
+                // Hostnames match but urls don't update
+                setUrl(udpatedUrl);
+            }
+        };
+
+        const servers = [
+            {nameServer: "placekitten.com", widthPreview: 75, heightPreview: 75},
+            {nameServer: "unsplash.it", widthPreview: 75, heightPreview: 75},
+            {nameServer: "baconmockup.com", widthPreview: 75, heightPreview: 75},
+            {nameServer: "placebear.com", widthPreview: 75, heightPreview: 75},
+        ]
+
+        return (
+            <Fragment>
+                <BlockEdit {...props} />
+                <InspectorControls>
+                    <PanelBody title={__("Place Holders")} initialOpen={true}>
+                        <div>
+                            Inserts a random placeholder image from the following sites:
+                        </div>
+                        <PlaceImg
+                            getWidth={getWidth}
+                            getHeight={getHeight}
+                            setUrl={setUrl}
+                            url={url}
+                            setUrlIfSameHostname={setUrlIfSameHostname}
+                        />
+
+                        <SpaceHolder
+                            getWidth={getWidth}
+                            getHeight={getHeight}
+                            setUrl={setUrl}
+                            url={url}
+                        />
+
+                        {
+                            servers.length > 0 &&
+                            servers.map((item, index) => {
+                               return (
+                                   <ServerComponen
+                                       key = {index}
+                                       getWidth={getWidth}
+                                       getHeight={getHeight}
+                                       setUrl={setUrl}
+                                       widthPreview={item.widthPreview}
+                                       heightPreview={item.heightPreview}
+                                       nameServer={item.nameServer}
+                                       url={url}
+                                   />
+                               )
+                            })
+                        }
+                    </PanelBody>
+                </InspectorControls>
+            </Fragment>
+        );
+    };
 }, "withAdvancedControls");
 
 addFilter("editor.BlockEdit", "placeholders/blockeditor", withAdvancedControls);
@@ -109,12 +113,12 @@ addFilter("editor.BlockEdit", "placeholders/blockeditor", withAdvancedControls);
 // @TODO Ernesto - See image: app/public/wp-content/plugins/placeholders/docs/Image Create Block.png
 // Please get the hook 'editor.MediaPlaceholder' to work.  Add any or all the placeholders you want there.
 
-// function replaceMediaPlaceholder(mediaPlaceholder) {
-// 	return mediaPlaceholder;
-// }
+function replaceMediaPlaceholder(mediaPlaceholder) {
+    return mediaPlaceholder;
+}
 
-// wp.hooks.addFilter(
-// 	'editor.MediaPlaceholder',
-// 	'placeholders/replace-media-placeholder',
-// 	replaceMediaPlaceholder
-// );
+wp.hooks.addFilter(
+    'editor.MediaPlaceholder',
+    'placeholders/replace-media-placeholder',
+    replaceMediaPlaceholder
+);

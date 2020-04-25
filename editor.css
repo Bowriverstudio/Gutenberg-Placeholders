@@ -1,0 +1,6 @@
+.components-placeholder__label{
+    display : contents;
+}
+.be-transparent{
+    opacity: 0.5;
+}
