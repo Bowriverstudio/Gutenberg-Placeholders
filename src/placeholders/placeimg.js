@@ -14,7 +14,6 @@ class PlaceImg extends Component {
         this.state = this.init()
     }
 
-
     componentWillMount() {
         if (this.props.url) {
             const arrayAux = this.props.url.replace('https://', '').split('/')
@@ -98,14 +97,21 @@ class PlaceImg extends Component {
 
         return (
             <Fragment>
-                <PanelRow className={!this.state.flag ?'be-transparent':''}>
-                    <img
-                        onClick={() => this.props.setUrl(this.getUrl())}
-                        src={this.getUrl(75, 75)}
-                    />
-                    <Button onClick={() => this.props.setUrl(this.getUrl())}>
-                        placeimg.com
-                    </Button>
+                <PanelRow className={!this.state.flag ? 'be-transparent' : ''}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginTop: 20
+                    }}>
+                        <img
+                            onClick={() => this.props.setUrl(this.getUrl())}
+                            src={this.getUrl(75, 75)}
+                        />
+                        <Button onClick={() => this.props.setUrl(this.getUrl())}>
+                            placeimg.com
+                        </Button>
+                    </div>
                 </PanelRow>
                 <PanelRow>
                     <SelectControl

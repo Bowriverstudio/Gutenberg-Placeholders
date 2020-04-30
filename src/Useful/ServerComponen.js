@@ -32,10 +32,6 @@ class ServerComponen extends Component {
         }
     }
 
-    componentDidMount() {
-
-    }
-
 
     getUrl = (width, height) => {
         width = width ? width : this.props.getWidth();
@@ -45,20 +41,26 @@ class ServerComponen extends Component {
 
     render() {
 
-        const {nameServer, widthPreview, heightPreview, url} = this.props
+        const {nameServer, widthPreview, heightPreview, column} = this.props
 
-
+        let className = {
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: column ? 'column' : 'row',
+            alignItems: 'center',
+            marginTop: 20
+        }
         return (
-               <PanelRow className={!this.state.flag ?'be-transparent':''}>
-                    <img
-                        onClick={() => this.props.setUrl(this.getUrl())}
-                        src={this.getUrl(widthPreview, heightPreview)}
-                    />
-                    <Button onClick={() => this.props.setUrl(this.getUrl())}>
-                        {nameServer}
-                    </Button>
+            <div style={className} className={!this.state.flag ? 'be-transparent' : ''}>
+                <img
+                    onClick={() => this.props.setUrl(this.getUrl())}
+                    src={this.getUrl(widthPreview, heightPreview)}
+                />
+                <Button onClick={() => this.props.setUrl(this.getUrl())}>
+                    {nameServer}
+                </Button>
+            </div>
 
-                </PanelRow>
         );
     }
 }

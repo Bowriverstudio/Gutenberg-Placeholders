@@ -4,3 +4,11 @@
 .be-transparent{
     opacity: 0.5;
 }
+/*.columns-add-server{*/
+    /*display: flex;*/
+    /*width: auto;*/
+    /*justify-content: space-between;*/
+/*}*/
+.dashicon dashicons-format-image{
+    margin-right: 0
+}
