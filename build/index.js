@@ -642,21 +642,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var allowedBlocks = ["core/image"];
 var excludeBlocks = [];
-/**
- * Add Placeholder Image controls on Block Panel.
- *
- * @param {function} BlockEdit Block edit component.
- *
- * @return {function} BlockEdit Modified block edit component.
- */
 
 function addAttributes(settings) {
   if (typeof settings.attributes !== 'undefined') {
-    if (!settings.attributes.servers) settings.attributes = Object.assign(settings.attributes, {
+    if (settings.attributes.servers !== 'undefined') settings.attributes = Object.assign(settings.attributes, {
       servers: {
         type: 'array',
-        default: ["placekitten.com", "unsplash.it", "placebear.com" //"baconmockup.com"
-        ]
+        default: ["placekitten.com", "unsplash.it", "placebear.com", "baconmockup.com"]
       }
     });
   }
@@ -667,13 +659,13 @@ function addAttributes(settings) {
 Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["addFilter"])('blocks.registerBlockType', 'server/custom-attributes', addAttributes);
 var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__["createHigherOrderComponent"])(function (BlockEdit) {
   return function (props) {
-    console.log(props);
     var name = props.name,
         attributes = props.attributes,
         setAttributes = props.setAttributes,
         isSelected = props.isSelected;
 
     if (!allowedBlocks.includes(name)) {
+      console.log('--------------------------!allowedBlocks.includes(name)----------------');
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockEdit, props);
     }
 
@@ -701,12 +693,11 @@ var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2_
       var updatedHostname = new URL(udpatedUrl).hostname;
 
       if (currentHostname == updatedHostname) {
-        // Hostnames match but urls don't update
         setUrl(udpatedUrl);
       }
     };
 
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockEdit, props), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockEdit, props), isSelected && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "containerServer"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_placeholders_spaceholder__WEBPACK_IMPORTED_MODULE_7__["default"], {
       key: 'SpaceHolder',
@@ -735,15 +726,14 @@ var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2_
       getHeight: getHeight
     }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__["InspectorControls"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["PanelBody"], {
       title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])("Place Holders"),
-      initialOpen: true
+      initialOpen: false
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Inserts a random placeholder image from the following sites:"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_placeholders_placeimg__WEBPACK_IMPORTED_MODULE_6__["default"], {
       key: 'PlaceImg',
       getWidth: getWidth,
       getHeight: getHeight,
       setUrl: setUrl,
       url: url,
-      setUrlIfSameHostname: setUrlIfSameHostname // servers={servers}
-
+      setUrlIfSameHostname: setUrlIfSameHostname
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_placeholders_spaceholder__WEBPACK_IMPORTED_MODULE_7__["default"], {
       key: 'SpaceHolderInspector',
       getWidth: getWidth,
