@@ -39,13 +39,10 @@ const withAdvancedControls = createHigherOrderComponent((BlockEdit) => {
     return (props) => {
         const {name, attributes, setAttributes, isSelected} = props;
 
-        console.log(JSON.stringify(props))
-
         if (!allowedBlocks.includes(name)) {
             return <BlockEdit {...props} />;
         }
         const {height, width, url, servers} = attributes;
-
 
 
         const getWidth = () => {
@@ -78,7 +75,7 @@ const withAdvancedControls = createHigherOrderComponent((BlockEdit) => {
                 {isSelected && (
                     <div>
                         <div className="containerServer">
-                                <SpaceHolder
+                            <SpaceHolder
                                 key={'SpaceHolder'}
                                 getWidth={getWidth}
                                 getHeight={getHeight}
