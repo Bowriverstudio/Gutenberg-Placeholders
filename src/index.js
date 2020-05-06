@@ -1,167 +1,166 @@
-import { PanelBody, PanelRow } from '@wordpress/components';
-import { createHigherOrderComponent } from '@wordpress/compose';
-import { InspectorControls } from '@wordpress/editor';
-import { Fragment } from '@wordpress/element';
-import { addFilter } from '@wordpress/hooks';
-import { __ } from '@wordpress/i18n';
+import {PanelBody, PanelRow} from '@wordpress/components';
+import {createHigherOrderComponent} from '@wordpress/compose';
+import {InspectorControls} from '@wordpress/editor';
+import {Fragment} from '@wordpress/element';
+import {addFilter} from '@wordpress/hooks';
+import {__} from '@wordpress/i18n';
 import PlaceImg from './placeholders/placeimg';
 import SpaceHolder from './placeholders/spaceholder';
 import ServerComponen from './Useful/ServerComponen';
 import AddServer from './Useful/AddServer';
-// import { MediaPlaceholder } from '@wordpress/block-editor';
 
-const allowedBlocks = [ 'core/image' ];
+const allowedBlocks = ['core/image'];
 
-function addAttributes( settings ) {
-	if ( typeof settings.attributes !== 'undefined' ) {
-		if ( settings.attributes.servers !== 'undefined' )
-			settings.attributes = Object.assign( settings.attributes, {
-				servers: {
-					type: 'array',
-					default: [
-						'placekitten.com',
-						'unsplash.it',
-						'placebear.com',
-						'baconmockup.com',
-					],
-				},
-			} );
-	}
-	return settings;
+function addAttributes(settings) {
+    if (typeof settings.attributes !== 'undefined') {
+        if (settings.attributes.servers !== 'undefined')
+            settings.attributes = Object.assign(settings.attributes, {
+                servers: {
+                    type: 'array',
+                    default: [
+                        'placekitten.com',
+                        'unsplash.it',
+                        'placebear.com',
+                        'baconmockup.com',
+                    ],
+                },
+            });
+    }
+    return settings;
 }
 
 addFilter(
-	'blocks.registerBlockType',
-	'server/custom-attributes',
-	addAttributes
+    'blocks.registerBlockType',
+    'server/custom-attributes',
+    addAttributes
 );
 
-const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
-	return ( props ) => {
-		const { name, attributes, setAttributes, isSelected } = props;
+const withAdvancedControls = createHigherOrderComponent((BlockEdit) => {
+    return (props) => {
+        const {name, attributes, setAttributes, isSelected} = props;
 
-		if ( ! allowedBlocks.includes( name ) ) {
-			return <BlockEdit { ...props } />;
-		}
-		const { height, width, url, servers } = attributes;
+        console.log(JSON.stringify(props))
 
-		const getWidth = () => {
-			return width ? width : 700;
-		};
+        if (!allowedBlocks.includes(name)) {
+            return <BlockEdit {...props} />;
+        }
+        const {height, width, url, servers} = attributes;
 
-		const getHeight = () => {
-			return height ? height : 700;
-		};
 
-		const setUrl = ( udpatedUrl ) => {
-			setAttributes( {
-				url: udpatedUrl,
-			} );
-		};
 
-		const setUrlIfSameHostname = ( udpatedUrl ) => {
-			const currentHostname = new URL( url ).hostname;
-			const updatedHostname = new URL( udpatedUrl ).hostname;
+        const getWidth = () => {
+            return width ? width : 700;
+        };
 
-			if ( currentHostname === updatedHostname ) {
-				setUrl( udpatedUrl );
-			}
-		};
+        const getHeight = () => {
+            return height ? height : 700;
+        };
 
-		return (
-			<Fragment>
-				<BlockEdit { ...props } />
+        const setUrl = (udpatedUrl) => {
+            setAttributes({
+                url: udpatedUrl,
+            });
+        };
 
-				{ isSelected && (
-					<div>
-						<div className="containerServer">
-							<SpaceHolder
-								key={ 'SpaceHolder' }
-								getWidth={ getWidth }
-								getHeight={ getHeight }
-								setUrl={ setUrl }
-								url={ url }
-								column={ true }
-							/>
-							{ servers.length > 0 &&
-								servers.map( ( item, index ) => {
-									return (
-										<ServerComponen
-											key={ index + 'edit' }
-											getWidth={ getWidth }
-											getHeight={ getHeight }
-											setUrl={ setUrl }
-											nameServer={ item }
-											url={ url }
-											column={ true }
-										/>
-									);
-								} ) }
-						</div>
-						<PanelRow>
-							<AddServer
-								key={ 'addServer' }
-								url={ url }
-								servers={ servers }
-								setAttributes={ setAttributes }
-								setUrl={ setUrl }
-								getWidth={ getWidth }
-								getHeight={ getHeight }
-							/>
-						</PanelRow>
-					</div>
-				) }
-				<InspectorControls>
-					<PanelBody
-						title={ __( 'Place Holders' ) }
-						initialOpen={ false }
-					>
-						<div>
-							Inserts a random placeholder image from the
-							following sites:
-						</div>
-						<PlaceImg
-							key={ 'PlaceImg' }
-							getWidth={ getWidth }
-							getHeight={ getHeight }
-							setUrl={ setUrl }
-							url={ url }
-							setUrlIfSameHostname={ setUrlIfSameHostname }
-						/>
+        const setUrlIfSameHostname = (udpatedUrl) => {
+            const currentHostname = new URL(url).hostname;
+            const updatedHostname = new URL(udpatedUrl).hostname;
 
-						<SpaceHolder
-							key={ 'SpaceHolderInspector' }
-							getWidth={ getWidth }
-							getHeight={ getHeight }
-							setUrl={ setUrl }
-							url={ url }
-						/>
+            if (currentHostname === updatedHostname) {
+                setUrl(udpatedUrl);
+            }
+        };
 
-						{ servers.length > 0 &&
-							servers.map( ( item, index ) => {
-								return (
-									<PanelRow key={ index + ' Inspector' }>
-										<ServerComponen
-											getWidth={ getWidth }
-											getHeight={ getHeight }
-											setUrl={ setUrl }
-											nameServer={ item }
-											url={ url }
-										/>
-									</PanelRow>
-								);
-							} ) }
-					</PanelBody>
-				</InspectorControls>
-			</Fragment>
-		);
-	};
-}, 'withAdvancedControls' );
+        return (
+            <Fragment>
+                <BlockEdit {...props} />
+
+                {isSelected && (
+                    <div>
+                        <div className="containerServer">
+                                <SpaceHolder
+                                key={'SpaceHolder'}
+                                getWidth={getWidth}
+                                getHeight={getHeight}
+                                setUrl={setUrl}
+                                url={url}
+                                column={true}
+                            />
+                            {servers.length > 0 &&
+                            servers.map((item, index) => {
+                                return (
+                                    <ServerComponen
+                                        key={index + 'edit'}
+                                        getWidth={getWidth}
+                                        getHeight={getHeight}
+                                        setUrl={setUrl}
+                                        nameServer={item}
+                                        url={url}
+                                        column={true}
+                                    />
+                                );
+                            })}
+                        </div>
+                        <PanelRow>
+                            <AddServer
+                                url={url}
+                                servers={servers}
+                                setAttributes={setAttributes}
+                                setUrl={setUrl}
+                                getWidth={getWidth}
+                                getHeight={getHeight}
+                            />
+                        </PanelRow>
+                    </div>
+                )}
+                <InspectorControls>
+                    <PanelBody title={__('Place Holders')} initialOpen={false}>
+                        <div key={'Text'}>
+                            Inserts a random placeholder image from the
+                            following sites:
+                        </div>
+                        <PlaceImg
+                            key={'PlaceImg'}
+                            getWidth={getWidth}
+                            getHeight={getHeight}
+                            setUrl={setUrl}
+                            url={url}
+                            setUrlIfSameHostname={setUrlIfSameHostname}
+                        />
+
+                        <SpaceHolder
+                            key={'SpaceHolderInspector'}
+                            getWidth={getWidth}
+                            getHeight={getHeight}
+                            setUrl={setUrl}
+                            url={url}
+                        />
+
+                        {servers.length > 0 &&
+                        servers.map((item, index) => {
+                            return (
+                                <PanelRow key={index + ' Inspector'}>
+                                    <ServerComponen
+                                        getWidth={getWidth}
+                                        getHeight={getHeight}
+                                        setUrl={setUrl}
+                                        nameServer={item}
+                                        url={url}
+                                    />
+                                </PanelRow>
+                            );
+                        })}
+                    </PanelBody>
+                </InspectorControls>
+            </Fragment>
+        );
+    };
+}, 'withAdvancedControls');
 
 addFilter(
-	'editor.BlockEdit',
-	'placeholders/blockeditor',
-	withAdvancedControls
+    'editor.BlockEdit',
+    'placeholders/blockeditor',
+    withAdvancedControls
 );
 
 // @TODO Ernesto - See image: app/public/wp-content/plugins/placeholders/docs/Image Create Block.png
