@@ -44,7 +44,7 @@ class SpaceHolder extends Component {
 
         let className = {
             display: 'flex',
-            justifyContent: 'space-between',
+            // justifyContent: 'space-between',
             flexDirection: column ? 'column' : 'row',
             alignItems: 'center',
             marginTop: 20
@@ -56,9 +56,10 @@ class SpaceHolder extends Component {
                     src={this.getUrl(75, 75)}
                 />
                 <Button onClick={() => this.props.setUrl(this.getUrl())}>
-                    SpaceHolder.cc
+                    spaceholder.cc
                 </Button>
             </div>
+
         );
     }
 }

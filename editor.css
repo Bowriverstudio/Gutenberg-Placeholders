@@ -1,14 +1,14 @@
-.components-placeholder__label{
-    display : contents;
+.components-placeholder__label {
+    display: contents;
 }
-.be-transparent{
+
+.be-transparent {
+    position: relative;
     opacity: 0.5;
 }
-/*.columns-add-server{*/
-    /*display: flex;*/
-    /*width: auto;*/
-    /*justify-content: space-between;*/
-/*}*/
-.dashicon dashicons-format-image{
-    margin-right: 0
+
+.containerServer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
 }

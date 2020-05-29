@@ -24,20 +24,6 @@ const excludeBlocks = [];
  */
 
 
-
-let ServerAttributes = {
-
-    nameServer: {
-        type: 'array',
-        default: [
-            {nameServer: "placekitten.com", widthPreview: 75, heightPreview: 75},
-            {nameServer: "unsplash.it", widthPreview: 75, heightPreview: 75},
-            {nameServer: "baconmockup.com", widthPreview: 75, heightPreview: 75},
-            {nameServer: "placebear.com", widthPreview: 75, heightPreview: 75},
-        ],
-    }
-}
-
 function addAttributes(settings) {
 
     if (typeof settings.attributes !== 'undefined') {
@@ -45,13 +31,10 @@ function addAttributes(settings) {
             settings.attributes = Object.assign(settings.attributes, {
                 servers: {
                     type: 'array',
-                    default: [
-                        {nameServer: "placekitten.com", widthPreview: 75, heightPreview: 75},
-                        {nameServer: "unsplash.it", widthPreview: 75, heightPreview: 75},
-                        {nameServer: "placebear.com", widthPreview: 75, heightPreview: 75},
-                        // {nameServer: "baconmockup.com", widthPreview: 75, heightPreview: 75},
+                    default: ["placekitten.com","unsplash.it",  "placebear.com"
+                        //"baconmockup.com"
                     ],
-                }
+                },
             });
     }
     return settings;
@@ -99,18 +82,8 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
             <Fragment>
                 <BlockEdit {...props} />
 
-                <MediaPlaceholder
-                    onSelect={
-                        (el) => {
-                            setAttributes({url: el.url});
-                        }
-                    }
-                    allowedTypes={['image']}
-                    multiple={false}
-                    labels={{title: 'Edit Image'}}
-                    icon={"format-image"}
-                >
-                    <PanelRow>
+                <Fragment>
+                    <div className="containerServer">
 
                         <SpaceHolder
                             key={'SpaceHolder'}
@@ -125,44 +98,46 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
                             servers.map((item, index) => {
                                 return (
                                     <ServerComponen
-                                        key={index}
+                                        key={index + 'edit'}
                                         getWidth={getWidth}
                                         getHeight={getHeight}
                                         setUrl={setUrl}
-                                        widthPreview={item.widthPreview}
-                                        heightPreview={item.heightPreview}
-                                        nameServer={item.nameServer}
+                                        nameServer={item}
                                         url={url}
                                         column={true}
                                     />
                                 )
                             })
                         }
-                    </PanelRow>
+                    </div>
                     <PanelRow>
                         <AddServer
+                            key={'addServer'}
+                            url={url}
                             servers={servers}
                             setAttributes={setAttributes}
                             setUrl={setUrl}
                             getWidth={getWidth}
                             getHeight={getHeight}/>
                     </PanelRow>
-                </MediaPlaceholder>
+                </Fragment>
+
                 <InspectorControls>
                     <PanelBody title={__("Place Holders")} initialOpen={true}>
                         <div>
                             Inserts a random placeholder image from the following sites:
                         </div>
-                        <PlaceImg
-                            getWidth={getWidth}
-                            getHeight={getHeight}
-                            setUrl={setUrl}
-                            url={url}
-                            setUrlIfSameHostname={setUrlIfSameHostname}
-                            servers={servers}
+                        <PlaceImg key={'PlaceImg'}
+                                  getWidth={getWidth}
+                                  getHeight={getHeight}
+                                  setUrl={setUrl}
+                                  url={url}
+                                  setUrlIfSameHostname={setUrlIfSameHostname}
+                                  // servers={servers}
                         />
 
                         <SpaceHolder
+                            key={'SpaceHolderInspector'}
                             getWidth={getWidth}
                             getHeight={getHeight}
                             setUrl={setUrl}
@@ -175,18 +150,17 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
                                 return (
                                     <PanelRow>
                                         <ServerComponen
-                                            key={index}
+                                            key={index + 'Inspector'}
                                             getWidth={getWidth}
                                             getHeight={getHeight}
                                             setUrl={setUrl}
-                                            widthPreview={item.widthPreview}
-                                            heightPreview={item.heightPreview}
-                                            nameServer={item.nameServer}
+                                            nameServer={item}
                                             url={url}
                                         />
                                     </PanelRow>)
                             })
                         }
+
                     </PanelBody>
                 </InspectorControls>
             </Fragment>
@@ -195,15 +169,7 @@ const withAdvancedControls = createHigherOrderComponent(BlockEdit => {
 
 }, "withAdvancedControls");
 
-
 addFilter("editor.BlockEdit", "placeholders/blockeditor", withAdvancedControls);
 
 // @TODO Ernesto - See image: app/public/wp-content/plugins/placeholders/docs/Image Create Block.png
 // Please get the hook 'editor.MediaPlaceholder' to work.  Add any or all the placeholders you want there.
-
-
-// wp.hooks.addFilter(
-//     'editor.MediaPlaceholder',
-//     'my-plugin/replace-media-placeholder',
-//     replaceMediaPlaceholder
-// );

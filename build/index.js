@@ -320,6 +320,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _MyDisabled__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./MyDisabled */ "./src/Useful/MyDisabled.js");
 
 
 
@@ -332,6 +333,7 @@ __webpack_require__.r(__webpack_exports__);
 function _createSuper(Derived) { return function () { var Super = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default()(this, result); }; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 
 
 
@@ -355,25 +357,50 @@ var AddServer = /*#__PURE__*/function (_Component) {
       return "https://" + _this.state.nameServer + "/" + width + "/" + height;
     });
 
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "handleTextControl", function (value) {
+      var aux = _this.props.servers.indexOf(value);
+
+      if (aux != -1) _this.setState({
+        nameServer: value,
+        postDelete: aux
+      });else _this.setState({
+        nameServer: value,
+        postDelete: -1
+      });
+    });
+
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "onSave", function () {
-      if (_this.state.nameServer != '') {
+      if (_this.state.postDelete != -1) {
         var aux = _this.props.servers;
-        aux.push({
-          nameServer: _this.state.nameServer,
-          widthPreview: 75,
-          heightPreview: 75
-        });
+        aux.splice(_this.state.postDelete, 1);
 
         _this.props.setAttributes({
           servers: aux
         });
+
+        _this.props.setUrl(_this.getUrl());
       }
 
-      _this.props.setUrl(_this.getUrl());
+      if (_this.state.postDelete == -1) {
+        var _aux = _this.props.servers;
+
+        _aux.push(_this.state.nameServer);
+
+        _this.props.setAttributes({
+          servers: _aux
+        });
+
+        _this.props.setUrl(_this.getUrl());
+      }
+
+      _this.setState({
+        nameServer: ''
+      });
     });
 
     _this.state = {
-      nameServer: 'baconmockup.com'
+      nameServer: '',
+      postDelete: -1
     };
     return _this;
   }
@@ -384,22 +411,23 @@ var AddServer = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       var nameServer = this.state.nameServer;
+      var url = this.props.url;
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["TextControl"], {
-        placeholder: "Example Server: myrepository.com",
+        placeholder: "Example: image.com",
         value: nameServer,
         onChange: function onChange(value) {
-          _this2.setState({
-            nameServer: value
-          });
+          _this2.handleTextControl(value);
         }
-      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Button"], {
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_MyDisabled__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        flag: this.getUrl() == url ? true : false
+      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         isPrimary: true,
         style: {
           marginTop: 0,
           marginLeft: 10
         },
         onClick: this.onSave
-      }, "Add Server"));
+      }, this.state.postDelete != -1 ? "Delete Server" : "Add Server")));
     }
   }]);
 
@@ -540,12 +568,10 @@ var ServerComponen = /*#__PURE__*/function (_Component) {
 
       var _this$props = this.props,
           nameServer = _this$props.nameServer,
-          widthPreview = _this$props.widthPreview,
-          heightPreview = _this$props.heightPreview,
           column = _this$props.column;
       var className = {
         display: 'flex',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
         flexDirection: column ? 'column' : 'row',
         alignItems: 'center',
         marginTop: 20
@@ -557,7 +583,7 @@ var ServerComponen = /*#__PURE__*/function (_Component) {
         onClick: function onClick() {
           return _this2.props.setUrl(_this2.getUrl());
         },
-        src: this.getUrl(widthPreview, heightPreview)
+        src: this.getUrl(75, 75)
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         onClick: function onClick() {
           return _this2.props.setUrl(_this2.getUrl());
@@ -624,47 +650,12 @@ var excludeBlocks = [];
  * @return {function} BlockEdit Modified block edit component.
  */
 
-var ServerAttributes = {
-  nameServer: {
-    type: 'array',
-    default: [{
-      nameServer: "placekitten.com",
-      widthPreview: 75,
-      heightPreview: 75
-    }, {
-      nameServer: "unsplash.it",
-      widthPreview: 75,
-      heightPreview: 75
-    }, {
-      nameServer: "baconmockup.com",
-      widthPreview: 75,
-      heightPreview: 75
-    }, {
-      nameServer: "placebear.com",
-      widthPreview: 75,
-      heightPreview: 75
-    }]
-  }
-};
-
 function addAttributes(settings) {
   if (typeof settings.attributes !== 'undefined') {
     if (!settings.attributes.servers) settings.attributes = Object.assign(settings.attributes, {
       servers: {
         type: 'array',
-        default: [{
-          nameServer: "placekitten.com",
-          widthPreview: 75,
-          heightPreview: 75
-        }, {
-          nameServer: "unsplash.it",
-          widthPreview: 75,
-          heightPreview: 75
-        }, {
-          nameServer: "placebear.com",
-          widthPreview: 75,
-          heightPreview: 75
-        } // {nameServer: "baconmockup.com", widthPreview: 75, heightPreview: 75},
+        default: ["placekitten.com", "unsplash.it", "placebear.com" //"baconmockup.com"
         ]
       }
     });
@@ -715,19 +706,9 @@ var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2_
       }
     };
 
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockEdit, props), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_10__["MediaPlaceholder"], {
-      onSelect: function onSelect(el) {
-        setAttributes({
-          url: el.url
-        });
-      },
-      allowedTypes: ['image'],
-      multiple: false,
-      labels: {
-        title: 'Edit Image'
-      },
-      icon: "format-image"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_placeholders_spaceholder__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockEdit, props), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "containerServer"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_placeholders_spaceholder__WEBPACK_IMPORTED_MODULE_7__["default"], {
       key: 'SpaceHolder',
       getWidth: getWidth,
       getHeight: getHeight,
@@ -736,17 +717,17 @@ var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2_
       column: true
     }), servers.length > 0 && servers.map(function (item, index) {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Useful_ServerComponen__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        key: index,
+        key: index + 'edit',
         getWidth: getWidth,
         getHeight: getHeight,
         setUrl: setUrl,
-        widthPreview: item.widthPreview,
-        heightPreview: item.heightPreview,
-        nameServer: item.nameServer,
+        nameServer: item,
         url: url,
         column: true
       });
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Useful_AddServer__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      key: 'addServer',
+      url: url,
       servers: servers,
       setAttributes: setAttributes,
       setUrl: setUrl,
@@ -756,26 +737,26 @@ var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2_
       title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])("Place Holders"),
       initialOpen: true
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Inserts a random placeholder image from the following sites:"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_placeholders_placeimg__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      key: 'PlaceImg',
       getWidth: getWidth,
       getHeight: getHeight,
       setUrl: setUrl,
       url: url,
-      setUrlIfSameHostname: setUrlIfSameHostname,
-      servers: servers
+      setUrlIfSameHostname: setUrlIfSameHostname // servers={servers}
+
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_placeholders_spaceholder__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      key: 'SpaceHolderInspector',
       getWidth: getWidth,
       getHeight: getHeight,
       setUrl: setUrl,
       url: url
     }), servers.length > 0 && servers.map(function (item, index) {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Useful_ServerComponen__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        key: index,
+        key: index + 'Inspector',
         getWidth: getWidth,
         getHeight: getHeight,
         setUrl: setUrl,
-        widthPreview: item.widthPreview,
-        heightPreview: item.heightPreview,
-        nameServer: item.nameServer,
+        nameServer: item,
         url: url
       }));
     }))));
@@ -783,11 +764,6 @@ var withAdvancedControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2_
 }, "withAdvancedControls");
 Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["addFilter"])("editor.BlockEdit", "placeholders/blockeditor", withAdvancedControls); // @TODO Ernesto - See image: app/public/wp-content/plugins/placeholders/docs/Image Create Block.png
 // Please get the hook 'editor.MediaPlaceholder' to work.  Add any or all the placeholders you want there.
-// wp.hooks.addFilter(
-//     'editor.MediaPlaceholder',
-//     'my-plugin/replace-media-placeholder',
-//     replaceMediaPlaceholder
-// );
 
 /***/ }),
 
@@ -1139,7 +1115,7 @@ var SpaceHolder = /*#__PURE__*/function (_Component) {
       var column = this.props.column;
       var className = {
         display: 'flex',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
         flexDirection: column ? 'column' : 'row',
         alignItems: 'center',
         marginTop: 20
@@ -1156,7 +1132,7 @@ var SpaceHolder = /*#__PURE__*/function (_Component) {
         onClick: function onClick() {
           return _this2.props.setUrl(_this2.getUrl());
         }
-      }, "SpaceHolder.cc"));
+      }, "spaceholder.cc"));
     }
   }]);
 

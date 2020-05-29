@@ -1,5 +1,5 @@
 import {Component} from "@wordpress/element";
-import {Button, PanelRow} from "@wordpress/components";
+import {Button, PanelRow,Dashicon} from "@wordpress/components";
 import {__} from "@wordpress/i18n";
 
 class ServerComponen extends Component {
@@ -41,21 +41,23 @@ class ServerComponen extends Component {
 
     render() {
 
-        const {nameServer, widthPreview, heightPreview, column} = this.props
+        const {nameServer, column} = this.props
 
         let className = {
             display: 'flex',
-            justifyContent: 'space-between',
+            // justifyContent: 'space-between',
             flexDirection: column ? 'column' : 'row',
             alignItems: 'center',
             marginTop: 20
         }
         return (
             <div style={className} className={!this.state.flag ? 'be-transparent' : ''}>
+
                 <img
                     onClick={() => this.props.setUrl(this.getUrl())}
-                    src={this.getUrl(widthPreview, heightPreview)}
+                    src={this.getUrl(75, 75)}
                 />
+
                 <Button onClick={() => this.props.setUrl(this.getUrl())}>
                     {nameServer}
                 </Button>
